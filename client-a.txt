@@ -1,4 +1,23 @@
 # Client Task A #
 # Add your pseudocode to this file below this line: #
 # ------------------------------------------------- #
+echo "game running" 
+echo "Welcome to Penelopi's Number Guessing Game! You only have three guesses, 1 through 10." 
+# Generate a random number between 1 and 10 
+random_number=$((RANDOM % 10 + 1)) 
+attempts=3 
+while [ $attempts -gt 0 ]; do echo -n "Enter your guess: " 
+read player_guess 
+if [ "$player_guess" -eq "$random_number" ]; then 
+echo "Good Job! You got it right." 
+break 
+else 
+echo "Awh, no. Wrong number, Try again!" 
+attempts=$((attempts - 1)) 
+fi 
+if [ $attempts -eq 0 ]; then 
+echo "Sorry, you ran out of guesses. The number was $random_number." 
+break
+fi 
+done 
 

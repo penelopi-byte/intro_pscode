@@ -1,4 +1,88 @@
 # Client Task B #
 # Add your pseudocode to this file below this line: #
 # ------------------------------------------------- #
+#!/bin/bash
+
+# Warehouse Grid Representation (0 = open, 1 = wall)
+warehouse=(
+    "0 0 0 0"
+    "0 1 1 0"
+    "0 0 0 0"
+    "0 0 1 0"
+)
+
+# Start and Goal Positions
+current_position=(0 0)  # Starting at (0,0)
+goal=(3 3)
+
+# Directions
+declare -A directions
+directions=(
+    ["N"]="-1 0"
+    ["S"]="1 0"
+    ["E"]="0 1"
+    ["W"]="0 -1"
+)
+
+# Function to check if a position is valid
+is_valid() {
+    local x=$1
+    local y=$2
+    if [[ $x -ge 0 && $x -lt ${#warehouse[@]} && $y -ge 0 && $y -lt ${#warehouse[0]} ]]; then
+        [[ ${warehouse[$x]:$((y * 2)):1} -eq 0 ]]
+    else
+        return 1
+    fi
+}
+
+# Function to display current position
+display_position() {
+    echo "Current Position: (${current_position[0]}, ${current_position[1]})"
+}
+
+# Main Loop
+while true; do
+    display_position
+
+    if [[ ${current_position[0]} -eq ${goal[0]} && ${current_position[1]} -eq ${goal[1]} ]]; then
+        echo "You've reached the goal!"
+        break
+    fi
+
+    echo "Enter your move (N for North, S for South, E for East, W for West) or Q to quit:"
+    read -r move
+
+    case $move in
+        N|n)
+            new_x=$((current_position[0] - 1))
+            new_y=${current_position[1]}
+            ;;
+        S|s)
+            new_x=$((current_position[0] + 1))
+            new_y=${current_position[1]}
+            ;;
+        E|e)
+            new_x=${current_position[0]}
+            new_y=$((current_position[1] + 1))
+            ;;
+        W|w)
+            new_x=${current_position[0]}
+            new_y=$((current_position[1] - 1))
+            ;;
+        Q|q)
+            echo "Quitting..."
+            exit 0
+            ;;
+        *)
+            echo "Invalid move. Please enter N, S, E, W, or Q."
+            continue
+            ;;
+    esac
+
+    if is_valid "$new_x" "$new_y"; then
+        current_position=("$new_x" "$new_y")
+    else
+        echo "Invalid move! You hit a wall or are out of bounds."
+    fi
+done
 

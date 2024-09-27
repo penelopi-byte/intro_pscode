@@ -2,3 +2,9 @@
 # Add your pseudocode to this file below this line: #
 # ------------------------------------------------- #
 
+#!/bin/bash
+
+# Loop to print numbers from 2 to 50, counting by twos
+for (( i=2; i<=50; i+=2 )); do
+    echo "$i"
+done
